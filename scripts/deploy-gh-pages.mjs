@@ -136,7 +136,7 @@ console.log("源码已推送到 main。");
 
 // 3. Build the Pages variant
 console.log("正在构建 GitHub Pages 版本…");
-run("npm", ["run", "build:pages"]);
+run(process.platform === "win32" ? "npm.cmd" : "npm", ["run", "build:pages"]);
 
 // 4. Publish dist/ to gh-pages branch
 await new Promise((resolve, reject) => {
