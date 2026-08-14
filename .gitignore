@@ -1,0 +1,7 @@
+node_modules/
+.npm-cache/
+dist/
+work/
+.parcel-cache/
+.DS_Store
+*.log

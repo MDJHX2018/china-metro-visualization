@@ -1,0 +1,29 @@
+{
+  "name": "china-metro-visualization",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "全国城市地铁可视化系统 - 全国概览 + 单城市深度探索仪表板",
+  "scripts": {
+    "gen:data": "node scripts/gen-data-index.mjs",
+    "dev": "npm run gen:data && parcel serve index.html --port 5173",
+    "build": "npm run gen:data && parcel build index.html --dist-dir dist --public-url / --no-source-maps",
+    "build:pages": "npm run gen:data && parcel build index.html --dist-dir dist --public-url /china-metro-visualization/ --no-source-maps",
+    "preview": "node scripts/serve-static.mjs",
+    "start": "npm run build && node scripts/serve-static.mjs",
+    "deploy:pages": "node scripts/deploy-gh-pages.mjs"
+  },
+  "dependencies": {
+    "buffer": "^6.0.3",
+    "echarts": "^5.5.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.2"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0",
+    "parcel": "^2.16.4",
+    "playwright-core": "^1.62.1"
+  },
+  "browserslist": "> 0.5%, last 2 versions, not dead"
+}

@@ -1,0 +1,508 @@
+:root {
+  --bg: #f2f5fb;
+  --surface: #ffffff;
+  --surface-muted: #f7f9fd;
+  --border: #e3e8f2;
+  --text: #1f2a44;
+  --text-secondary: #64708c;
+  --primary: #2563eb;
+  --primary-soft: #e8f0fe;
+  --danger: #dc2626;
+  --radius: 14px;
+  --radius-sm: 10px;
+  --shadow: 0 1px 2px rgba(24, 39, 75, 0.05), 0 6px 20px rgba(24, 39, 75, 0.06);
+  --header-h: 60px;
+  --font: "Segoe UI", "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--font);
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- Header ---------- */
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  height: var(--header-h);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 1px 8px rgba(24, 39, 75, 0.05);
+}
+
+.header-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  height: 100%;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.brand-title {
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.brand-sub {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-link {
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-size: 14px;
+  text-decoration: none;
+  color: var(--text-secondary);
+  transition: background 0.15s, color 0.15s;
+}
+
+.nav-link:hover {
+  color: var(--text);
+  background: var(--surface-muted);
+}
+
+.nav-link.active {
+  color: var(--primary);
+  background: var(--primary-soft);
+  font-weight: 600;
+}
+
+.nav-hint {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* ---------- Layout ---------- */
+.app-body {
+  flex: 1;
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 20px;
+  align-items: start;
+}
+
+.app-main {
+  min-width: 0;
+}
+
+.app-side {
+  position: sticky;
+  top: calc(var(--header-h) + 20px);
+}
+
+.page-loading {
+  padding: 80px 20px;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.error-boundary {
+  max-width: 520px;
+  margin: 80px auto;
+  padding: 32px;
+  text-align: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.error-boundary h1 {
+  margin: 0 0 8px;
+  font-size: 20px;
+}
+
+.error-boundary p {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin: 0 0 20px;
+}
+
+.error-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.error-actions button,
+.error-actions a {
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ---------- Cards ---------- */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 20px;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.card-header h2 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.card-header h3 {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.card-badge {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: #fef3c7;
+  color: #92400e;
+  white-space: nowrap;
+}
+
+.card-badge.sample {
+  background: #e0e7ff;
+  color: #4338ca;
+}
+
+.card-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 16px 0;
+}
+
+.page-intro h1 {
+  margin: 0 0 6px;
+  font-size: 22px;
+}
+
+.page-intro p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.intro-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.btn-back {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-back:hover {
+  background: #dbe7fe;
+}
+
+.code {
+  font-family: ui-monospace, Consolas, monospace;
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1px 6px;
+  font-size: 13px;
+}
+
+.stat-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.chip {
+  font-size: 12px;
+  color: var(--text-secondary);
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 4px 10px;
+}
+
+.chip b {
+  color: var(--primary);
+  font-size: 13px;
+  margin-left: 4px;
+}
+
+/* ---------- Placeholders ---------- */
+.map-card {
+  min-height: 460px;
+  display: flex;
+}
+
+.map-chart {
+  flex: 1;
+  width: 100%;
+  height: 620px;
+}
+
+.city-map-chart {
+  flex: 1;
+  width: 100%;
+  height: 640px;
+}
+
+.line-legend-card {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.line-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 4px 11px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.line-chip:hover {
+  border-color: var(--primary);
+  color: var(--text);
+}
+
+.line-chip.active {
+  border-color: var(--primary);
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.line-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex: none;
+}
+
+.placeholder-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1.5px dashed #c6d2e8;
+  border-radius: var(--radius-sm);
+  background: var(--surface-muted);
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.placeholder-box span {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.placeholder-box small {
+  font-size: 12px;
+}
+
+.chart-placeholder {
+  min-height: 180px;
+  padding: 16px;
+}
+
+/* ---------- Dashboard panel ---------- */
+.dashboard-panel {
+  padding: 18px;
+}
+
+.panel-context {
+  margin: -6px 0 12px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.stat-value {
+  font-size: 22px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-unit {
+  margin-left: 3px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.stat-hint {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.panel-note {
+  margin: 14px 0 0;
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.trend-chart {
+  width: 100%;
+  height: 180px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1024px) {
+  .app-body {
+    grid-template-columns: 1fr;
+  }
+
+  .app-side {
+    position: static;
+  }
+
+  .map-chart {
+    height: 520px;
+  }
+
+  .city-map-chart {
+    height: 540px;
+  }
+}
+
+@media (max-width: 640px) {
+  .header-inner {
+    padding: 0 12px;
+  }
+
+  .brand-sub {
+    display: none;
+  }
+
+  .nav-hint {
+    display: none;
+  }
+
+  .app-body {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .map-chart {
+    height: 440px;
+  }
+
+  .city-map-chart {
+    height: 460px;
+  }
+
+  .intro-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
