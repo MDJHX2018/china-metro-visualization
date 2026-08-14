@@ -21,7 +21,6 @@
     "react-router-dom": "^6.26.2"
   },
   "devDependencies": {
-    "gh-pages": "^6.3.0",
     "parcel": "^2.16.4",
     "playwright-core": "^1.62.1"
   },

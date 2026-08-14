@@ -8,10 +8,9 @@
 // Steps: create repo if missing -> commit & push source -> build:pages ->
 // push dist/ to gh-pages branch -> enable Pages -> wait for the build.
 import { execFileSync } from "node:child_process";
-import { existsSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, rmSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { publish } from "gh-pages";
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const token = process.env.GH_TOKEN;
@@ -143,16 +142,19 @@ if (npmCli && existsSync(npmCli)) {
   run(process.platform === "win32" ? "cmd" : "npm", process.platform === "win32" ? ["/c", "npm run build:pages"] : ["run", "build:pages"]);
 }
 
-// 4. Publish dist/ to gh-pages branch
-await new Promise((resolve, reject) => {
-  publish(join(root, "dist"), {
-    branch: "gh-pages",
-    repo: `https://x-access-token:${token}@github.com/${owner}/${repoName}.git`,
-    user: { name: "Metro Explorer", email: "metro-explorer@users.noreply.github.com" },
-    message: "Deploy to GitHub Pages [ci skip]",
-    dotfiles: false,
-  }, (err) => (err ? reject(err) : resolve()));
-});
+// 4. Publish dist/ to gh-pages branch.
+// (Published manually: the gh-pages package caches clones under a URL-derived
+// directory name, which exceeds Windows path limits when the token is in the URL.)
+const ghPagesRepo = join(root, "work", "gh-pages-repo");
+rmSync(ghPagesRepo, { recursive: true, force: true });
+mkdirSync(ghPagesRepo, { recursive: true });
+run("git", ["init", "-b", "gh-pages", ghPagesRepo]);
+run("git", ["-C", ghPagesRepo, "config", "user.name", "Metro Explorer"]);
+run("git", ["-C", ghPagesRepo, "config", "user.email", "metro-explorer@users.noreply.github.com"]);
+cpSync(join(root, "dist"), ghPagesRepo, { recursive: true });
+run("git", ["-C", ghPagesRepo, "add", "-A"]);
+run("git", ["-C", ghPagesRepo, "commit", "-m", "Deploy to GitHub Pages [ci skip]"]);
+run("git", ["-C", ghPagesRepo, "push", `https://x-access-token:${token}@github.com/${owner}/${repoName}.git`, "+HEAD:gh-pages"]);
 console.log("dist/ 已发布到 gh-pages 分支。");
 
 // 5. Enable Pages
