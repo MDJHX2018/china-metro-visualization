@@ -21,6 +21,31 @@ if (!token) {
 }
 const repoName = process.env.GITHUB_REPO || "china-metro-visualization";
 const API = "https://api.github.com";
+
+// Git transport fixes for this sandboxed environment:
+// - the bundled git's libexec dir lacks remote helpers -> point GIT_EXEC_PATH
+//   at the directory containing git-remote-https.exe
+// - Windows Credential Manager is unavailable -> token comes from the URL
+// - the Schannel TLS backend cannot access the certificate store -> use OpenSSL
+function setupGitEnv() {
+  const execPath = execFileSync("git", ["--exec-path"], { cwd: root, encoding: "utf8" })
+    .toString()
+    .trim();
+  for (const dir of [execPath, join(execPath, "..", "bin"), join(execPath, "..", "..", "bin")]) {
+    if (existsSync(join(dir, "git-remote-https.exe")) || existsSync(join(dir, "git-remote-https"))) {
+      process.env.GIT_EXEC_PATH = dir;
+      break;
+    }
+  }
+  process.env.GIT_TERMINAL_PROMPT = "0";
+  process.env.GIT_CONFIG_COUNT = "2";
+  process.env.GIT_CONFIG_KEY_0 = "credential.helper";
+  process.env.GIT_CONFIG_VALUE_0 = "";
+  process.env.GIT_CONFIG_KEY_1 = "http.sslbackend";
+  process.env.GIT_CONFIG_VALUE_1 = "openssl";
+}
+setupGitEnv();
+
 const headers = {
   Authorization: `Bearer ${token}`,
   Accept: "application/vnd.github+json",
