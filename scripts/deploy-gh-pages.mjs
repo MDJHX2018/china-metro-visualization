@@ -136,7 +136,12 @@ console.log("源码已推送到 main。");
 
 // 3. Build the Pages variant
 console.log("正在构建 GitHub Pages 版本…");
-run(process.platform === "win32" ? "npm.cmd" : "npm", ["run", "build:pages"]);
+const npmCli = process.env.npm_execpath;
+if (npmCli && existsSync(npmCli)) {
+  run(process.execPath, [npmCli, "run", "build:pages"]);
+} else {
+  run(process.platform === "win32" ? "cmd" : "npm", process.platform === "win32" ? ["/c", "npm run build:pages"] : ["run", "build:pages"]);
+}
 
 // 4. Publish dist/ to gh-pages branch
 await new Promise((resolve, reject) => {
